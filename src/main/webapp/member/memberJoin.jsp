@@ -5,6 +5,7 @@
   <TITLE> memberJoin </TITLE> 
   
   <link href = "../css/style.css" type = "text/css" rel = "stylesheet">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>  <!-- CDN(컨텐츠 딜리버리 네트워크)주소 -->
  <script type="text/javascript">
  
  // 버튼을 눌렀을때 check 함수 작동
@@ -15,6 +16,10 @@
 	
 	 if (fm.memberid.value == ""){
 		 alert("아이디를 입력해주세요");
+		 fm.memberid.focus();
+		 return;
+	 }else if(fm.btn.value == "N"){
+		 alert("아이디 중복체크를 해주세요.");
 		 fm.memberid.focus();
 		 return;
 	 }else if (fm.memberpwd.value == ""){
@@ -83,11 +88,60 @@
 	 }
 	 return flag;
 	 }
-	 
+	  
 	 /* if(flag == false){
 	 alert("취미를 1개이상 선택해주세요");
 	 return false; }*/
  
+	 $(document).ready(function(){
+		 
+		 $("#btn").click(function(){
+			 //alert("중복체크버튼 클릭");
+			 let memberId = $("#memberid").val();
+			 if(memberId == ""){
+				 alert("아이디를 입력해 주세요");
+				 return;
+			 }
+			 
+			 
+			 $.ajax({
+				 type : "post",     //전송방식
+				 url : "<%=request.getContextPath()%>/member/memberIdCheck.aws",
+				 dataType : "json",     // json타입은 문서에서 {"키값" : "value값","키갑2" : "value값2"}
+				 data : {"memberId" : memberId },
+				 success : function(result){    // 결과가 넘어와서 성공했을 때 받는 영역
+				 	 
+					 //alert("전송성공 테스트");
+				 	 //alert("길이는"+result.length);
+				 	 //alert("cnt값은"+result.cnt);
+				 	 if(result.cnt == 0){
+				 		 alert("사용할수 있는 아이디입니다.");
+				 		$("#btn").val("Y");
+				 	 }else{
+				 		 alert("사용할수 없는 아이디입니다.");
+				 		$("#memberid").val("");  //입력한 아이디 지우기
+				 		 
+				 	 }
+				 	 
+				 
+				 },
+				 error : function(){   // 결과가 실패했을 때 받는 영역
+					 
+					 alert("전송실패 테스트");
+					 
+				 }
+				 
+				 
+			 });
+				 			 
+		 });
+		 
+	  });
+	 
+	 
+	 
+	 
+	 
 	 
 	 
  </script>
@@ -99,7 +153,12 @@
 	<article>
 	<form name="frm" >
 		<table border = "1">
-			<tr><th class = "idcolor">아이디</th><td><input type="text" name="memberid" style = "width:100px" maxlength="30" placeholder = "아이디를 입력하세요"></td></tr>
+			<tr><th class = "idcolor">아이디</th>
+				<td>
+				<input type="text" id = "memberid" name="memberid" style = "width:100px" maxlength="30" placeholder = "아이디를 입력하세요">
+				<button type = "button" name = "btn" id = "btn" value = "N"> 아이디 중복체크 </button>
+				</td>
+			</tr>
 			<tr><th class = "idcolor">비밀번호</th><td><input type="password" name="memberpwd" style = "width:100px" maxlength="30"></td></tr>
 			<tr><th>비밀번호 확인</th><td><input type="password" name="memberpwd2" style = "width:100px" maxlength="30"></td></tr>
 			<tr><th id="name">이름</th><td><input type="text" name="membername" style = "width:100px" maxlength="30"></td></tr>

@@ -16,7 +16,7 @@
 <servlet>
 
 <servlet-name>controller</servlet-name>
-<servlet-class>mvc.controller.MemberController</servlet-class>
+<servlet-class>mvc.controller.FrontController</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name>controller</servlet-name>

@@ -45,7 +45,33 @@
   
   </style>
   
+  <script>
+  //아이디 비밀번호 유효성 검사
+  function check(){
+	  //이름으로 객체찾기
+	  let memberid = document.getElementsByName("memberid");
+	  let memberpwd = document.getElementsByName("memberpwd");
+	  //alert(memberid[0].value);
+	  //alert(memberpwd[0].value);
+	  
+	  if(memberid[0].value == ""){
+		  alert("아이디를 입력해주세요");
+		  memberid[0].focus();
+		  return;
+	  }else if(memberpwd[0].value == ""){
+		  alert("비밀번호를 입력해주세요");
+		  memberpwd[0].focus();
+		  return;
+		  
+	  }
+	  var fm = document.frm;
+	  fm.action = "<%=request.getContextPath()%>/member/memberLoginAction.aws";  //가상경로지정 action은 처리하는 의미
+	  fm.method = "post";
+	  fm.submit();
+	  return;
+  }
   
+  </script>
   
   
   
@@ -58,15 +84,15 @@
  <div>
  <section>
 	<article>
-	<form name="frm" action = ".test0920_result.html" method="post">
+	<form name="frm" >
 		<table border = "1">
-			<tr><td>아이디</td><td><input type="text" name="memberId" style = "width:100px" maxlength="30"></td></tr>
-			<tr><td>비밀번호</td><td><input type="password" name="memberPwd" style = "width:100px" maxlength="30"></td></tr>
+			<tr><td>아이디</td><td><input type="text" name="memberid" style =  "width:100px" maxlength="30"></td></tr>
+			<tr><td>비밀번호</td><td><input type="password" name="memberpwd" style = "width:100px" maxlength="30"></td></tr>
 		
 		
 		<tr>
 			<td colspan = 2 style = "text-align:center">
-			<input type = "submit" name= "btn" value="로그인">
+			<input type = "button" name= "btn" value="로그인" onclick = "check();">
 		</td>
 		</tr>
 		<tr></tr>
