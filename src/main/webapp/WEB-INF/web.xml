@@ -16,7 +16,7 @@
 <servlet>
 
 <servlet-name>controller</servlet-name>
-<servlet-class>mvc.controller.FrontController</servlet-class>
+<servlet-class>mvc.controller.FrontController</servlet-class> <!-- 멤버컨트롤러를 프론트컨트롤러도 바꾸고 프런트컨트롤러에서 각 컨트롤러로 뿌린다 -->
 </servlet>
 <servlet-mapping>
 <servlet-name>controller</servlet-name>

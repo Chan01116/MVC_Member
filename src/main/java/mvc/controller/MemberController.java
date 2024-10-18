@@ -170,7 +170,7 @@ public class MemberController extends HttpServlet {
 			paramMethod="F";		
 	    	
 	    }else if(location.equals("memberIdCheck.aws")) {
-	    	System.out.println("memberIdCheck.aws");
+	    	//System.out.println("memberIdCheck.aws");
 	    	
 	    	String memberId = request.getParameter("memberId");
 	    	
