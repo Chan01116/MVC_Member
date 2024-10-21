@@ -6,6 +6,11 @@
 <%
 
 ArrayList<BoardVo> alist = (ArrayList<BoardVo>)request.getAttribute("alist");
+//System.out.println("alist ==>" +alist);
+PageMaker pm = (PageMaker)request.getAttribute("pm");
+
+
+
 
 %>
 
@@ -51,10 +56,21 @@ ArrayList<BoardVo> alist = (ArrayList<BoardVo>)request.getAttribute("alist");
 	
 	</table>
 		<button type = "button" name = "btnwrite" id = "btnwrite"> <a href= "<%=request.getContextPath()%>/board/Board_Write.aws">글쓰기</button></a>
-		<div><td onclick = "move();">1</td><td onclick = "move();">2</td><td onclick = "move();">3</td><td onclick = "move();">4</td><td onclick = "move();">5</td>
-		<td onclick = "move();">6</td><td onclick = "move();">7</td><td onclick = "move();">8</td><td onclick = "move();">9</td><td onclick = "move();">10</td></div>
+		<div class ="page">
+		<ul>
+		<%if(pm.isPrev()== true){ %>
+		<li><a href = "/board/board_List.aws?page=<%=pm.getStartPage()-1%>">◀</a></li>
+		<%} %>
 		
 		
+		<%for(int i = pm.getStartPage(); i <= pm.getEndPage(); i++){ %>
+		<li <%if(i ==pm.getCri().getPage()){ %>class = "on"<%} %>> <a href = "/board/board_List.aws?page=<%=i%>"><%=i %></a></li>
+		<%} %>
+		<%if(pm.isNext()==true&&pm.getEndPage()>0){ %>
+		<li><a href = "/board/board_List.aws?page=<%=pm.getEndPage()+1%>">▶</a></li>
+		<%} %>
+		</ul>
+		</div>
 	</form>
 </body>
 </html>
