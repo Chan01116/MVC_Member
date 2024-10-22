@@ -18,6 +18,9 @@ public class FrontController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String uri = request.getRequestURI(); // 전체주소 가져오기
+		
+		//      /member/memberJoinAction.aws
+		
 		String[] entity = uri.split("/");  // 스플릿으로 자르기 
 		
 		if(entity[1].equals("member")) {
@@ -27,8 +30,7 @@ public class FrontController extends HttpServlet {
 		}else if(entity[1].equals("board")) {
 			BoardController bc = new BoardController(entity[2]);
 			bc.doGet(request, response);
-			
-			
+						
 		}
 		
 		

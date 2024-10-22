@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>글수정</title>
+<link href = "../css/style2.css" rel ="stylesheet">
 <script>
 function check(){
 	  

@@ -31,7 +31,7 @@ public class MemberController extends HttpServlet {
 		
 	//	System.out.println("값이 넘어오나요?");
 		//전체주소를 추출
-		String uri = request.getRequestURI();
+		//String uri = request.getRequestURI();
 		//System.out.println("uri"+uri);   //   /mvc_programming/member/memberJoinAction.aws
 		//String[] location = uri.split("/");
 		
@@ -110,7 +110,7 @@ public class MemberController extends HttpServlet {
 	    	String memberPwd = request.getParameter("memberpwd");
 	    	MemberDao md = new MemberDao();
 	    	MemberVo mv = md.memberLoginCheck(memberId, memberPwd);
-	    	md.memberLoginCheck(memberId, memberPwd);
+	    	//md.memberLoginCheck(memberId, memberPwd);
 	    	//System.out.println("mv객체가 생겼나요?"+ mv);
 	    	
 	    	

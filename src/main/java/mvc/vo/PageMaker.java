@@ -87,9 +87,10 @@ public class PageMaker {
 		//1. 기본적으로 1에서부터 10까지 나타나게 설정한다 (페이지네비게이션에서)
 		endPage = (int)(Math.ceil(cri.getPage()/(double)displayPageNum)*displayPageNum);  //모두 올림처리하는 메소드ceil()
 		
+		// 기본적으로 엔드페이지를 10으로 잡아놓고 시작한다 
+		
 		//2. endPage가 설정되었으면 시작페이지도 설정
-		
-		
+				
 		startPage = (endPage-displayPageNum)+1;
 		
 		//3. 실제 게시물수에 따라서 endPage를 구하겠다

@@ -66,7 +66,7 @@ alert('<%=msg%>');
 </div>
 
 <div>
-<a href = "<%=request.getContextPath()%> /board/board_List.aws">게시판 목록가기</a>
+<a href = "<%=request.getContextPath()%> /board/Board_List.aws">게시판 목록가기</a>
 </div>
 
 </body>

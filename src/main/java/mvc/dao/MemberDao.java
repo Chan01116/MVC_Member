@@ -71,7 +71,7 @@ public class MemberDao { // MVC방식으로 가기전에 첫번째 model1 방식
     	//로그인을 통해서 회원정보를 담아오는 메소드이다
     	public MemberVo memberLoginCheck(String memberId, String memberPwd) {
     		MemberVo mv = null;
-    		String sql = "SELECT *FROM member WHERE memberid = ? AND memberpwd = ?";
+    		String sql = "select * from member where memberid =? and memberpwd=?";
     		ResultSet rs = null;  // DB에서 결과데이터를 받아오는 전용 클래스     		
     		
     		try {
