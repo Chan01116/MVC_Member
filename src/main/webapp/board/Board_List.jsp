@@ -33,6 +33,7 @@ PageMaker pm = (PageMaker)request.getAttribute("pm");
 		<td id = "TitleTop">제목</td>
 		<td id = "WriterTop">작성자</td>
 		<td id = "HitTop">조회</td>
+		<td id = "ViewRecom">추천</td>
 		<td id = "WritedayTop">날짜</td>
 	</table>
 	<table>
@@ -42,6 +43,7 @@ PageMaker pm = (PageMaker)request.getAttribute("pm");
 		<td><%=bv.getBidx()%></td>
 		<td class = "title"><a href = "<%=request.getContextPath() %> /board/Board_Contents.aws?bidx=<%=bv.getBidx()%>"><%=bv.getSubject()%></a></td>
 		<td><%=bv.getWriter()%></td>
+		<td><%=bv.getViewcnt()%></td>
 		<td><%=bv.getRecom()%></td>
 		<td><%=bv.getWriteday().substring(0, 10) %></td>
 	

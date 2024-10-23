@@ -1,15 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <%
-    
     //세션정보를 꺼내서 담겨있지 않으면 로그인 화면으로 넘긴다
     if(session.getAttribute("midx") == null){
     	out.println("<script>alert('로그인을 해주세요');location.href='"+request.getContextPath()+"/member/memberLogin.aws';</script>");
-    	    	
     }
-    
-    
     %>
     
     
@@ -52,6 +46,7 @@ function check(){
 	  if(ans == true){
 		  fm.action ="<%= request.getContextPath()%>/board/Board_WriteAction.aws";
 		  fm.method = "post";
+		  fm.enctype = "multipart/form-data";  // 데이터도 올려야 하니까
 		  fm.submit();
 		  
 	  }
@@ -77,7 +72,7 @@ function check(){
 	<hr id = "mid">
 	<div>비밀번호 <input type ="password" name = "password"> </div>
 	<hr id = "mid">
-	<div>첨부파일 <button type ="button" name = "uploadfile">파일선택</button></div>
+	<div>첨부파일 <button type ="file" name = "filename">파일선택</button></div>  <!--바이너리 타입-->
 	<hr id = "mid">
 	<div> <button type = "button" name = "save" onclick = "check();">저장</button> <button type = "button" name = "cancle" onclick = "history.back();">취소</button> </div>
 	<table>

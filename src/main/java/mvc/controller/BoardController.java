@@ -12,8 +12,15 @@ import mvc.vo.BoardVo;
 import mvc.vo.Criteria;
 import mvc.vo.PageMaker;
 
+
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 
 @WebServlet("/BoardController")
@@ -72,7 +79,36 @@ public class BoardController extends HttpServlet {
 		 
 		 
 		 }else if(location.equals("Board_WriteAction.aws")) {
-			// System.out.println("Board_WriteAction.aws");
+			 // System.out.println("Board_WriteAction.aws");
+			 
+			 //저장될 위치
+				/*
+				 * String savePath =
+				 * "C:\\Users\\admin\\git\\aws0822\\mvc_programming\\src\\main\\webapp\\images";
+				 * int sizeLimit = 15*1024*1024; //15MB만 올린다 String dataType = "UTF-8";
+				 * 
+				 * DefaultFileRenamePolicy policy = new DefaultFileRenamePolicy();
+				 * 
+				 * MultipartRequest multi = new
+				 * MultipartRequest(request,savePath,sizeLimit,dataType,policy);
+				 */
+				/*
+				 * 
+				 * String savePath =
+				 * "C:\\Users\\admin\\git\\aws0822\\mvc_programming\\src\\main\\webapp\\images";
+				 * int sizeLimit = 15 * 1024 * 1024; // 15MB String dataType = "UTF-8";
+				 * 
+				 * // 경로 확인 및 생성 File dir = new File(savePath); if (!dir.exists()) {
+				 * dir.mkdirs(); // 경로가 없으면 생성 }
+				 * 
+				 * try { DefaultFileRenamePolicy policy = new DefaultFileRenamePolicy();
+				 * //MultipartRequest multi = new MultipartRequest(request, savePath, sizeLimit,
+				 * dataType, policy); // 파일 처리 로직 추가 (예: multi.getFile(...) 등) } catch
+				 * (IOException e) { e.printStackTrace(); // 예외 처리 로직 추가 (예: 사용자에게 오류 메시지 전달) }
+				 */
+		    
+			 
+			 
 			 //1 파라미터 값을 넘겨받는다
 			 String subject = request.getParameter("subject");
 			 String contents = request.getParameter("contents");
@@ -125,7 +161,8 @@ public class BoardController extends HttpServlet {
 			 				 			 
 			 //2. 처리하기
 			 BoardDao bd = new BoardDao();  // 객체생성하고
-			 BoardVo bv = bd.boardSelectOne(bidxInt);  // 생성한 메소드호출
+			 bd.boardViewCntUpdate(bidxInt);
+			 BoardVo bv = bd.boardSelectOne(bidxInt);  // 생성한 메소드호출 (해당되는 bidx의 게시물 데이터 가져옴)
 			 
 			 request.setAttribute("bv", bv);  // 포워드방식이라 같은영역안에 있어서 공유해서 jsp페이지에서 꺼내쓸수있다
 			 
@@ -199,6 +236,22 @@ public class BoardController extends HttpServlet {
 				 url = request.getContextPath()+"/board/Board_Modify.aws?bidx="+bidx;
 			 }
 			  
+			 }else if(location.equals("boardRecom.aws")) {
+				 
+				 String bidx = request.getParameter("bidx");
+				 int bidxInt = Integer.parseInt(bidx);
+				 BoardDao bd = new BoardDao();
+				 int recom = bd.boardRecomUpdate(bidxInt);
+				 
+				 
+				 PrintWriter out = response.getWriter();
+				 out.println("{\"recom\":\""+recom+"\" }");
+				 
+				 
+				 
+				 //다시설명
+				 //paramMethod="S";
+				 //url ="/board/Board_Contents.aws?bidx="+bidx;
 			 }
 		
 		
@@ -223,5 +276,4 @@ public class BoardController extends HttpServlet {
 		
 		doGet(request, response);
 	}
-
-}
+	}

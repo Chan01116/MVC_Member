@@ -48,6 +48,7 @@ public class BoardDao {
 	    		String boardWriter = rs.getString("writer");
 	    		String boardWriteday = rs.getString("writeday");
 	    		int boardRecom = rs.getInt("recom");
+	    		int boardViewcnt = rs.getInt("viewcnt");
 	    		
 	    		BoardVo bv = new BoardVo();  // 첫행부터 mv에 옮겨담기
 	    		bv.setBidx(bidx);
@@ -56,6 +57,7 @@ public class BoardDao {
 	    		bv.setWriter(boardWriter);
 	    		bv.setWriteday(boardWriteday);
 	    		bv.setRecom(boardRecom);
+	    		bv.setViewcnt(boardViewcnt);
 	    		alist.add(bv);				//ArrayList객체에 하나씩 추가하고 리턴한다
 	    		    		
 	    	}
@@ -344,6 +346,86 @@ public class BoardDao {
 				
 			
 			return value;
+		}
+		
+		
+		public int boardViewCntUpdate(int bidx) {
+			
+			int value = 0;
+			
+			String sql = "UPDATE board SET viewcnt = viewcnt+1 WHERE bidx=?";
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, bidx);
+				value = pstmt.executeUpdate(); //성공하면 1 실패하면0
+			
+				
+			}catch(SQLException e) {
+				e.printStackTrace();
+				
+			}finally {
+				try { 
+				pstmt.close();
+				}catch(SQLException e) {
+	    			e.printStackTrace();  //conn을 끊으면 다음 메소드가 작동하지 않으므로 끊지 않는다
+	    			
+	    		}
+								
+			}
+						
+			return value;
+		}
+		
+		
+		
+		public int boardRecomUpdate(int bidx) {
+			
+			int value = 0;
+			int recom = 0;
+			
+			
+			
+			String sql = "UPDATE board SET recom = recom+1 WHERE bidx=?";
+			String sql2 = "select recom from board where bidx=?";
+			ResultSet rs = null;
+			
+			try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bidx);
+			value = pstmt.executeUpdate();
+			
+			pstmt = conn.prepareStatement(sql2);
+			pstmt.setInt(1, bidx);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				recom = rs.getInt("recom");
+				
+			
+			
+			
+			}
+			
+			
+			
+			
+			}catch(SQLException e) {
+				e.printStackTrace();
+				
+			}finally {
+				try {
+					
+				pstmt.close();
+				conn.close();
+				}catch(SQLException e) {
+	    			e.printStackTrace();  
+	    			
+	    		}
+								
+			}
+			
+			
+			return recom;   // 설명다시 필요함
 		}
 		
 
