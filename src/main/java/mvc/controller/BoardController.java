@@ -7,18 +7,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import mvc.dao.BoardDao;
 import mvc.vo.BoardVo;
 import mvc.vo.Criteria;
 import mvc.vo.PageMaker;
 
-
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
 
@@ -79,34 +79,36 @@ public class BoardController extends HttpServlet {
 		 
 		 
 		 }else if(location.equals("Board_WriteAction.aws")) {
-			 // System.out.println("Board_WriteAction.aws");
+			  System.out.println("Board_WriteAction.aws");
 			 
 			 //저장될 위치
-				/*
-				 * String savePath =
-				 * "C:\\Users\\admin\\git\\aws0822\\mvc_programming\\src\\main\\webapp\\images";
-				 * int sizeLimit = 15*1024*1024; //15MB만 올린다 String dataType = "UTF-8";
-				 * 
-				 * DefaultFileRenamePolicy policy = new DefaultFileRenamePolicy();
-				 * 
-				 * MultipartRequest multi = new
-				 * MultipartRequest(request,savePath,sizeLimit,dataType,policy);
-				 */
-				/*
-				 * 
-				 * String savePath =
-				 * "C:\\Users\\admin\\git\\aws0822\\mvc_programming\\src\\main\\webapp\\images";
-				 * int sizeLimit = 15 * 1024 * 1024; // 15MB String dataType = "UTF-8";
-				 * 
-				 * // 경로 확인 및 생성 File dir = new File(savePath); if (!dir.exists()) {
-				 * dir.mkdirs(); // 경로가 없으면 생성 }
-				 * 
-				 * try { DefaultFileRenamePolicy policy = new DefaultFileRenamePolicy();
-				 * //MultipartRequest multi = new MultipartRequest(request, savePath, sizeLimit,
-				 * dataType, policy); // 파일 처리 로직 추가 (예: multi.getFile(...) 등) } catch
-				 * (IOException e) { e.printStackTrace(); // 예외 처리 로직 추가 (예: 사용자에게 오류 메시지 전달) }
-				 */
-		    
+				
+				 String savePath = "C:\\Users\\admin\\git\\aws0822\\mvc_programming\\src\\main\\webapp\\images\\";
+				 System.out.println(savePath);
+				 int fsize = (int) request.getPart("filename").getSize(); //15MB만 올린다 
+				 System.out.println("fsize : "+fsize);
+				 
+				 String originFileName = "";
+				 if(fsize!=0) {
+					 Part filePart = (Part) request.getPart("filename");
+					 System.out.println("filePart==>"+filePart);
+					 
+					 originFileName = getFileName(filePart);
+					 System.out.println("originFileName==>"+originFileName);
+					 System.out.println("저장되는 위치는? : "+savePath+originFileName);
+					 
+					 File file = new File(savePath + originFileName);
+					 InputStream is = filePart.getInputStream();   // Stream : 흐름. InputStream : 들어가는 부분의 데이터 흐름
+					 File fos = null;
+					 
+				 }
+				 
+				 
+				
+				 
+			 
+			 
+			   
 			 
 			 
 			 //1 파라미터 값을 넘겨받는다
@@ -276,4 +278,25 @@ public class BoardController extends HttpServlet {
 		
 		doGet(request, response);
 	}
+	
+	
+	public String getFileName(Part filePart) {
+		
+		for(String filePartData : filePart.getHeader("Content-Disposition").split(";")) {
+			System.out.println(filePartData);
+			
+			if(filePartData.trim().startsWith("filename")) {
+				return filePartData.substring(filePartData.indexOf("=")+1).trim().replace("\"" ,"");
+				
+				
+			}
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
 	}
