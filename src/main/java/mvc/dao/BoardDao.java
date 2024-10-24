@@ -128,9 +128,10 @@ public class BoardDao {
 			String writer = bv.getWriter();
 			String password = bv.getPassword();
 			int midx = bv.getMidx();
+			String filename = bv.getFilename();
 								
-			String sql = "INSERT INTO board(originbidx,depth,level_,SUBJECT,contents,writer,password,midx)"
-					+ "value(null,0,0,?,?,?,?,?)";
+			String sql = "INSERT INTO board(originbidx,depth,level_,SUBJECT,contents,writer,password,midx,filename)"
+					+ "value(null,0,0,?,?,?,?,?,?)";
 			
 			String sql2 = "update board set originbidx = (select A.maxbidx from (SELECT max(bidx) as maxbidx from board)A)"
 					+"where bidx = (select A.maxbidx from (SELECT max(bidx) as maxbidx from board)A)";
@@ -145,6 +146,7 @@ public class BoardDao {
 			pstmt.setString(3,writer);
 			pstmt.setString(4,password);
 			pstmt.setInt(5,midx);
+			pstmt.setString(6,filename);
 			int exec = pstmt.executeUpdate();  //실행되면 1 아니면 0
 			
 			pstmt = conn.prepareStatement(sql2);

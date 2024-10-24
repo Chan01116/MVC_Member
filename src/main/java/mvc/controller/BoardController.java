@@ -14,6 +14,7 @@ import mvc.vo.Criteria;
 import mvc.vo.PageMaker;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -82,7 +83,7 @@ public class BoardController extends HttpServlet {
 			  System.out.println("Board_WriteAction.aws");
 			 
 			 //저장될 위치
-				
+				//원본 파일이름
 				 String savePath = "C:\\Users\\admin\\git\\aws0822\\mvc_programming\\src\\main\\webapp\\images\\";
 				 System.out.println(savePath);
 				 int fsize = (int) request.getPart("filename").getSize(); //15MB만 올린다 
@@ -90,17 +91,29 @@ public class BoardController extends HttpServlet {
 				 
 				 String originFileName = "";
 				 if(fsize!=0) {
-					 Part filePart = (Part) request.getPart("filename");
+					 Part filePart = (Part) request.getPart("filename"); //넘어온 멀티파트형식의 파일을 Part클래스로 담는다
 					 System.out.println("filePart==>"+filePart);
 					 
-					 originFileName = getFileName(filePart);
+					 originFileName = getFileName(filePart);  // 파일이름 추출
 					 System.out.println("originFileName==>"+originFileName);
 					 System.out.println("저장되는 위치는? : "+savePath+originFileName);
 					 
-					 File file = new File(savePath + originFileName);
+					 File file = new File(savePath + originFileName); // 파일 객체생성
 					 InputStream is = filePart.getInputStream();   // Stream : 흐름. InputStream : 들어가는 부분의 데이터 흐름
-					 File fos = null;
+					 FileOutputStream fos = null;
+					
+					 fos = new FileOutputStream(file); // 파일 작성 및 완성하는 스트림생성
 					 
+					 int temp = -1;
+					 
+					 
+					while ((temp = is.read())!=-1) {  //반복문을 돌려서 읽어드린 데이터를 output에 작성한다
+						fos.write(temp);
+						
+						
+					}
+					 is.close(); // input 스트림객체 소멸
+					 fos.close(); // output 스트림객체 소멸
 				 }
 				 
 				 
@@ -126,6 +139,7 @@ public class BoardController extends HttpServlet {
 			 bv.setWriter(writer);
 			 bv.setPassword(password);
 			 bv.setMidx(midx);
+			 bv.setFilename(originFileName); //파일DB컬럼추가
 			 
 			 
 			 //2 DB처리한다

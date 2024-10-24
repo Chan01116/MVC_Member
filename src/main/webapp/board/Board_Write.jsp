@@ -72,7 +72,7 @@ function check(){
 	<hr id = "mid">
 	<div>비밀번호 <input type ="password" name = "password"> </div>
 	<hr id = "mid">
-	<div>첨부파일 <button type ="file" name = "filename">파일선택</button></div>  <!--바이너리 타입-->
+	<div>첨부파일 <input type="file" name="filename">파일선택</button></div>  <!--바이너리 타입-->
 	<hr id = "mid">
 	<div> <button type = "button" name = "save" onclick = "check();">저장</button> <button type = "button" name = "cancle" onclick = "history.back();">취소</button> </div>
 	<table>

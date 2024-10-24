@@ -16,7 +16,7 @@ import java.io.IOException;
 		fileSizeThreshold =  1024 * 1024 * 1,  // 1MB
 		maxFileSize =  1024 * 1024 * 10,  // 10MB
 		maxRequestSize =  1024 * 1024*15, //15MB
-		location =  "D:/dev/temp"  //임시로 보관하는 위치(물리적으로 만들어놔야 한다)
+		location =  "D:\\dev\\temp"  //임시로 보관하는 위치(물리적으로 만들어놔야 한다)
 		)
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

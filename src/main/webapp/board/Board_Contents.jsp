@@ -93,14 +93,16 @@ $(document).ready(function(){
 	<hr id = "mid">
 	<hr id = "mid">
 	<%if(bv.getFilename()!=null){ %>
-	<img alt="" src="" onclick = "upload();">
+	<a href = "#" class = "fileDown">
+	<img src="<%=request.getContextPath() %>/images/<%=bv.getFilename() %>">
 	첨부파일입니다
+	</a>
 	<%} %>
 	<hr id = "battom">
-	<div> <button type = "button" id = "contentsBtn" > <a href = "<%=request.getContextPath() %>/board/Board_Modify.aws?bidx=<%=bv.getBidx()%>">수정</a></button>
-	<button type = "button" id = "contentsBtn">삭제</button>
-	<button type = "button" id = "contentsBtn">답변</button>
-	<input type = "button" id = "contentsBtn"  href = "<%=request.getContextPath() %>/board/Board_List.aws" value ="목록"></div>
+	<div> <a class = "btn aBtn" id = "contentsBtn" a href = "<%=request.getContextPath() %>/board/Board_Modify.aws?bidx=<%=bv.getBidx()%>">수정</a>
+	<a class = "btn aBtn" id = "contentsBtn">삭제</a>
+	<a class = "btn aBtn" id = "contentsBtn">답변</a>
+	<a class="btn aBtn" href="<%=request.getContextPath() %>/board/Board_List.aws">목록</a></div>
 	
 	<div>admin</div>
 	<div><input type = "text" name ="reply"> <a href = "" id = "reply" onclick = "check();">댓글쓰기</a></div>
