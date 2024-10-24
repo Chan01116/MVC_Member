@@ -92,16 +92,16 @@ $(document).ready(function(){
 		
 	<hr id = "mid">
 	<hr id = "mid">
-	<%if(bv.getFilename()!=null){ %>
+	<%if(bv.getFilename()==null|| bv.getFilename().equals("")){}else{ %>
 	<a href = "#" class = "fileDown">
 	<img src="<%=request.getContextPath() %>/images/<%=bv.getFilename() %>">
 	첨부파일입니다
 	</a>
 	<%} %>
 	<hr id = "battom">
-	<div> <a class = "btn aBtn" id = "contentsBtn" a href = "<%=request.getContextPath() %>/board/Board_Modify.aws?bidx=<%=bv.getBidx()%>">수정</a>
-	<a class = "btn aBtn" id = "contentsBtn">삭제</a>
-	<a class = "btn aBtn" id = "contentsBtn">답변</a>
+	<div> <a class = "btn aBtn" id = "contentsBtn"  href = "<%=request.getContextPath() %>/board/Board_Modify.aws?bidx=<%=bv.getBidx()%>">수정</a>
+	<a class = "btn aBtn" id = "contentsBtn" href = "<%=request.getContextPath() %>/board/Board_Delete.aws?bidx=<%=bv.getBidx()%>">삭제</a>
+	<a class = "btn aBtn" id = "contentsBtn" href = "<%=request.getContextPath() %>/board/Board_Reply.aws?bidx=<%=bv.getBidx()%>">답변</a>
 	<a class="btn aBtn" href="<%=request.getContextPath() %>/board/Board_List.aws">목록</a></div>
 	
 	<div>admin</div>

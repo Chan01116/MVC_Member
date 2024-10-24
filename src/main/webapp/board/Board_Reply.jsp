@@ -1,57 +1,93 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+ 
+ <%
+if (session.getAttribute("midx") == null){
+	out.println("<script>alert('로그인을 해주세요');location.href='"+request.getContextPath()+"/member/memberLogin.aws';</script>");
+}
+ %>
+ 
+ 
+ <% 
+ int bidx = (int)request.getAttribute("bidx");
+ int originbidx = (int)request.getAttribute("originbidx");
+ int depth = (int)request.getAttribute("depth");
+ int level_ = (int)request.getAttribute("level_");
+ %>       
+    
+    
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>글답변</title>
+<link href = "../css/style2.css" rel ="stylesheet">
 <script>
+
+
+
 function check(){
-	  
-	  let title = document.getElementsByName("title");
-	  let contents = document.getElementsByName("contents");
-	  let writer = document.getElementsByName("writer");
-	
-	  
-	  if(title[0].value == ""){
+	let fm = document.frm;
+	  	  		  
+	  if(fm.subject.value == ""){
 		  alert("제목을 입력해주세요");
-		  title.focus();
+		  fm.subject.focus();
 		  return;
-	  }else if(contents[0].value == ""){
+	  }else if(fm.contents.value == ""){
 		  alert("내용을 입력해주세요");
-		  contents.focus();
+		  fm.contents.focus();
 		  return;
 		  
-	  }else if(writer[0].value == ""){
+	  }else if(fm.writer.value == ""){
 		  alert("작성자를 입력해주세요");
-		  writer.focus();
+		  fm.writer.focus();
 		  return;
 		
+	  }else if(fm.password.value == ""){
+		  alert("비밀번호를 입력해주세요");
+		  fm.password.focus();
+		  return;
+				  
 	  }
-	  var fm = document.bd;
+	  
+	  let ans = confirm("저장하시겠습니까?");  // 함수의 값을 참과 거짓 true false로 나눈다
+	  
+	  if(ans == true){
+		  fm.action ="<%= request.getContextPath()%>/board/Board_ReplyAction.aws";
+		  fm.method = "post";
+		  fm.enctype = "multipart/form-data";  // 데이터도 올려야 하니까
+		  fm.submit();
+		  
+	  }
+	  
+	  
 	 
-	  fm.method = "post";
-	  fm.submit();
 	  return;
+	 
 }
 
 </script>
 
 </head>
-<body name = "bd">
+<body>
+<form name = "frm">
+<input type = "hidden" name="bidx" value = "<%=bidx %>">
+<input type = "hidden" name="originbidx" value = "<%=originbidx %>">
+<input type = "hidden" name="depth" value = "<%=depth %>">
+<input type = "hidden" name="level_" value = "<%=level_ %>">
 <h3>글쓰기</h3>
 <hr id = "tod">
-	<div>제목 <input type ="text" name = "title"> </div>
+	<div>제목 <input type ="text" name = "subject"> </div>
 	<hr id = "mid">
 	<div>내용 <input type ="text" name = "contents"> </div>
 	<hr id = "mid">
 	<div>작성자 <input type ="text" name = "writer"> </div>
 	<hr id = "mid">
-	<div>비밀번호 <input type ="password"> </div>
+	<div>비밀번호 <input type ="password" name = "password"> </div>
 	<hr id = "mid">
-	<div>첨부파일 <button type ="button">파일선택</button></div>
+	<div>첨부파일 <input type="file" name="filename">파일선택</button></div>  <!--바이너리 타입-->
 	<hr id = "mid">
-	<div> <button type = "button" id = "save" onclick = "check();">저장</button> <button type = "button" id = "cancle">취소</button> </div>
+	<div> <button type = "button" name = "save" onclick = "check();">저장</button> <button type = "button" name = "cancle" onclick = "history.back();">취소</button> </div>
 	<table>
 		<td id = "NoTop">번호</td>
 		<td id = "WriterTop">작성자</td>
@@ -59,6 +95,6 @@ function check(){
 		<td id = "WritedayTop">날짜</td>
 	</table>
 
-
+</form>
 </body>
 </html>
