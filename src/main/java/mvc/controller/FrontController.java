@@ -24,6 +24,10 @@ public class FrontController extends HttpServlet {
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("UTF-8");
+		
+		
 		String uri = request.getRequestURI(); // 전체주소 가져오기
 		
 		//      /member/memberJoinAction.aws

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import mvc.dbcon.Dbconn;
 import mvc.vo.BoardVo;
 import mvc.vo.Criteria;
+import mvc.vo.SearchCriteria;
 
 public class BoardDao {
 	
@@ -22,15 +23,27 @@ public class BoardDao {
 	}
 	
 	
-	public ArrayList<BoardVo> boardSelectAll(Criteria cri) {
-		int page = cri.getPage(); // 페이지 번호
-		int perPageNum = cri.getPerPageNum(); //화면노출갯수
+	public ArrayList<BoardVo> boardSelectAll(SearchCriteria scri) {
+		int page = scri.getPage(); // 페이지 번호
+		int perPageNum = scri.getPerPageNum(); //화면노출갯수
 		
+		//키워드가 존재한다면 like구문을 활용한다
+		
+		
+		String str = "";
+		String keyword = scri.getKeyword();
+		String searchType = scri.getSearchType();
+		
+		if(!scri.getKeyword().equals("")) {
+			
+			str = "and "+searchType+" like concat('%','"+keyword+"','%') ";
+			
+		}		
 		
 		ArrayList<BoardVo> alist = new ArrayList<BoardVo>();  // ArrayList 컬렉션 객체에 BoardVo를 담겠다 BoardVo안에는 컬럼값을 담겠다 
 		    	
 	    
-	    	String sql = "select * from board where delyn='N' order by originbidx desc, depth asc limit ?,?";
+	    	String sql = "select * from board where delyn='N'"+str+" order by originbidx desc, depth asc limit ?,?";
 	    	ResultSet rs = null; // DB값을 가져오기 위한 전용클래스
 	    	
 	    	
@@ -85,11 +98,23 @@ public class BoardDao {
 	
 	
 			//개시물 전체 갯수 구하기
-			public int boardTotalCount() {
+			public int boardTotalCount(SearchCriteria scri) {
+				
+				
+				String str = "";
+				String keyword = scri.getKeyword();
+				String searchType = scri.getSearchType();
+				
+				if(!scri.getKeyword().equals("")) {
+					
+					str = "and "+searchType+" like concat('%','"+keyword+"','%') ";
+					
+				}		
+												
 				
 				int value = 0;
 				//1. 쿼리만들기
-				String sql = "SELECT COUNT(*) as cnt FROM board WHERE delyn = 'N'";
+				String sql = "SELECT COUNT(*) as cnt FROM board WHERE delyn = 'N'"+str+" ";
 				//2. conn 객체 안에 있는 구문클래스 호출하기 
 				//3. DB컬럼값을 받는 전용클래스 ResultSet을 호출 (ResultSet 특징은 데이터를 그대로 복사하기 떄문에 전달이 빠름)
 				ResultSet rs = null;
@@ -131,9 +156,9 @@ public class BoardDao {
 			String password = bv.getPassword();
 			int midx = bv.getMidx();
 			String filename = bv.getFilename();
-								
-			String sql = "INSERT INTO board(originbidx,depth,level_,SUBJECT,contents,writer,password,midx,filename)"
-					+ "value(null,0,0,?,?,?,?,?,?)";
+			String ip = bv.getIp();					
+			String sql = "INSERT INTO board(originbidx,depth,level_,SUBJECT,contents,writer,password,midx,filename,ip)"
+					+ "value(null,0,0,?,?,?,?,?,?,?)";
 			
 			String sql2 = "update board set originbidx = (select A.maxbidx from (SELECT max(bidx) as maxbidx from board)A)"
 					+"where bidx = (select A.maxbidx from (SELECT max(bidx) as maxbidx from board)A)";
@@ -149,6 +174,7 @@ public class BoardDao {
 			pstmt.setString(4,password);
 			pstmt.setInt(5,midx);
 			pstmt.setString(6,filename);
+			pstmt.setString(7,ip);
 			int exec = pstmt.executeUpdate();  //실행되면 1 아니면 0
 			
 			pstmt = conn.prepareStatement(sql2);

@@ -93,11 +93,13 @@ $(document).ready(function(){
 	<hr id = "mid">
 	<hr id = "mid">
 	<%if(bv.getFilename()==null|| bv.getFilename().equals("")){}else{ %>
-	<a href = "#" class = "fileDown">
 	<img src="<%=request.getContextPath() %>/images/<%=bv.getFilename() %>">
-	첨부파일입니다
-	</a>
 	<%} %>
+	<p>
+	<a href = "<%=request.getContextPath() %>/board/Board_Download.aws?filename=<%=bv.getFilename() %>" class = "fileDown">
+	첨부파일 다운로드
+	</a></p>
+	
 	<hr id = "battom">
 	<div> <a class = "btn aBtn" id = "contentsBtn"  href = "<%=request.getContextPath() %>/board/Board_Modify.aws?bidx=<%=bv.getBidx()%>">수정</a>
 	<a class = "btn aBtn" id = "contentsBtn" href = "<%=request.getContextPath() %>/board/Board_Delete.aws?bidx=<%=bv.getBidx()%>">삭제</a>
