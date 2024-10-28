@@ -241,11 +241,11 @@ public class BoardDao {
  				int depth = rs.getInt("depth");
  				int level_ = rs.getInt("level_");
  				
- 				System.out.println("rtnBidx"+rtnBidx);
-				System.out.println("originbidx"+originbidx);
+ 			//System.out.println("rtnBidx"+rtnBidx);
+				//System.out.println("originbidx"+originbidx);
  				
- 				System.out.println("depth"+depth);
-				System.out.println("level_"+level_);
+ 				//System.out.println("depth"+depth);
+				//System.out.println("level_"+level_);
 				
  				String password = rs.getString("password");
  				

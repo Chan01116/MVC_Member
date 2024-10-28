@@ -205,7 +205,7 @@ public class BoardController extends HttpServlet {
 			 BoardVo bv = bd.boardSelectOne(bidxInt);  // 생성한 메소드호출 (해당되는 bidx의 게시물 데이터 가져옴)
 			 
 			 request.setAttribute("bv", bv);  // 포워드방식이라 같은영역안에 있어서 공유해서 jsp페이지에서 꺼내쓸수있다
-			 System.out.println("컨트롤레벨"+bv.getLevel_());
+			 //System.out.println("컨트롤레벨"+bv.getLevel_());
 			 
 			 //3. 이동해서 화면보여주기
 			 paramMethod ="F";  // 화면을 보여주기 위해서 같은 영역내부안에 jsp페이지를 보여준다
@@ -321,7 +321,7 @@ public class BoardController extends HttpServlet {
 				 }
 				 	
 			  }else if(location.equals("Board_Reply.aws")) {
-			System.out.println("들어옴?");
+			//System.out.println("들어옴?");
 				String bidx = request.getParameter("bidx");
 				  
 				BoardDao bd = new BoardDao();  
@@ -331,8 +331,8 @@ public class BoardController extends HttpServlet {
 				 int depth = bv.getDepth();
 				 int level_ = bv.getLevel_();
 				 
-				System.out.println("depth"+depth);
-				System.out.println("level_"+level_);
+				//System.out.println("depth"+depth);
+				//System.out.println("level_"+level_);
 				 
 				 request.setAttribute("bidx",Integer.parseInt(bidx));
 				 request.setAttribute("originbidx",originbidx);
@@ -400,7 +400,7 @@ public class BoardController extends HttpServlet {
 				 String depth = request.getParameter("depth");
 				 //System.out.println("depth");
 				 String level_ = request.getParameter("level_");
-				 System.out.println("리플라이액션"+level_);
+				 //System.out.println("리플라이액션"+level_);
 				 
 			
 				 HttpSession session = request.getSession();
@@ -450,14 +450,14 @@ public class BoardController extends HttpServlet {
 				 }
 				 				  
 			  }else if(location.equals("Board_Download.aws")) {
-				  System.out.println("Board_Download.aws");
+				  //System.out.println("Board_Download.aws");
 				  
 				  String filename= request.getParameter("filename");
 				  String savePath = "C:\\Users\\admin\\git\\aws0822\\mvc_programming\\src\\main\\webapp\\images\\";
 				  
 				  ServletOutputStream sos = response.getOutputStream();
 				  String downfile = savePath+filename;
-				  System.out.println("downfile : "+downfile);
+				  //System.out.println("downfile : "+downfile);
 				  
 				  File f = new File(downfile);
 				  String header = request.getHeader("User-Agent");
