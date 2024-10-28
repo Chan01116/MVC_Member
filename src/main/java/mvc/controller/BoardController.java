@@ -205,7 +205,7 @@ public class BoardController extends HttpServlet {
 			 BoardVo bv = bd.boardSelectOne(bidxInt);  // 생성한 메소드호출 (해당되는 bidx의 게시물 데이터 가져옴)
 			 
 			 request.setAttribute("bv", bv);  // 포워드방식이라 같은영역안에 있어서 공유해서 jsp페이지에서 꺼내쓸수있다
-			 
+			 System.out.println("컨트롤레벨"+bv.getLevel_());
 			 
 			 //3. 이동해서 화면보여주기
 			 paramMethod ="F";  // 화면을 보여주기 위해서 같은 영역내부안에 jsp페이지를 보여준다
@@ -321,7 +321,7 @@ public class BoardController extends HttpServlet {
 				 }
 				 	
 			  }else if(location.equals("Board_Reply.aws")) {
-				//System.out.println("들어옴?");
+			System.out.println("들어옴?");
 				String bidx = request.getParameter("bidx");
 				  
 				BoardDao bd = new BoardDao();  
@@ -330,6 +330,9 @@ public class BoardController extends HttpServlet {
 				 int originbidx = bv.getOriginbidx();
 				 int depth = bv.getDepth();
 				 int level_ = bv.getLevel_();
+				 
+				System.out.println("depth"+depth);
+				System.out.println("level_"+level_);
 				 
 				 request.setAttribute("bidx",Integer.parseInt(bidx));
 				 request.setAttribute("originbidx",originbidx);
@@ -380,15 +383,7 @@ public class BoardController extends HttpServlet {
 						 originFileName = "";
 						 
 					 }
-					 
-					 
-					
-					 
-				 
-				 
-				   
-				 
-				 
+ 
 				 //1 파라미터 값을 넘겨받는다
 				 String subject = request.getParameter("subject");
 				 //System.out.println("subject");
@@ -405,9 +400,9 @@ public class BoardController extends HttpServlet {
 				 String depth = request.getParameter("depth");
 				 //System.out.println("depth");
 				 String level_ = request.getParameter("level_");
-				 //System.out.println("level_");
+				 System.out.println("리플라이액션"+level_);
 				 
-				 
+			
 				 HttpSession session = request.getSession();
 				 int midx = Integer.parseInt(session.getAttribute("midx").toString()); //로그인할때 담았던 세션변수 midx값을 꺼낸다
 				 

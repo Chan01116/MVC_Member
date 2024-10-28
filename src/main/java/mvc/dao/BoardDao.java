@@ -235,10 +235,18 @@ public class BoardDao {
  				int viewcnt = rs.getInt("viewcnt");
  				int recom = rs.getInt("recom");
  				String filename = rs.getString("filename");
+ 				
  				int rtnBidx = rs.getInt("bidx");
  				int originbidx = rs.getInt("originbidx");
  				int depth = rs.getInt("depth");
  				int level_ = rs.getInt("level_");
+ 				
+ 				System.out.println("rtnBidx"+rtnBidx);
+				System.out.println("originbidx"+originbidx);
+ 				
+ 				System.out.println("depth"+depth);
+				System.out.println("level_"+level_);
+				
  				String password = rs.getString("password");
  				
  				bv = new BoardVo();  // 객체생성해서 지역변수 bv로 담아서 리턴해서 가져간다
@@ -249,7 +257,7 @@ public class BoardDao {
  				bv.setViewcnt(viewcnt);
  				bv.setRecom(recom);
  				bv.setFilename(filename);
- 				bv.setBidx(originbidx);
+ 				bv.setBidx(rtnBidx);
  				bv.setOriginbidx(originbidx);
  				bv.setDepth(depth);
  				bv.setLevel_(level_);
@@ -493,8 +501,8 @@ public class BoardDao {
 			int maxbidx = 0;
 			
 			String sql = "update board set depth = depth+1 where originbidx = ? and depth > ?";
-			String sql2 = "insert into board (originbidx,depth,level_,subject,contents,writer,midx,filename,password)"
-					+"values(?,?,?,?,?,?,?,?,?)";
+			String sql2 = "insert into board (originbidx,depth,level_,subject,contents,writer,midx,filename,password,ip) "
+					 + "values(?,?,?,?,?,?,?,?,?,?)";
 			
 			String sql3 = "select max(bidx) as maxbidx from board where originbidx = ?";
 			
@@ -510,13 +518,16 @@ public class BoardDao {
 				pstmt = conn.prepareStatement(sql2);
 				pstmt.setInt(1, bv.getOriginbidx());
 				pstmt.setInt(2, bv.getDepth()+1);
+				System.out.println("다오뎁스"+bv.getDepth());
 				pstmt.setInt(3, bv.getLevel_()+1);
+				System.out.println("다오레벨"+bv.getLevel_());
 				pstmt.setString(4, bv.getSubject());
 				pstmt.setString(5, bv.getContents());
 				pstmt.setString(6, bv.getWriter());
 				pstmt.setInt(7, bv.getMidx());
 				pstmt.setString(8, bv.getFilename());
 				pstmt.setString(9, bv.getPassword());
+				pstmt.setString(10, bv.getIp());
 				
 				int exec2 = pstmt.executeUpdate();   //실행되면 1 아니면 0
 				

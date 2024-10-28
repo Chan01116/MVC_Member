@@ -71,10 +71,10 @@ function check(){
 </head>
 <body>
 <form name = "frm">
-<input type = "hidden" name="bidx" value = "<%=bidx %>">
-<input type = "hidden" name="originbidx" value = "<%=originbidx %>">
-<input type = "hidden" name="depth" value = "<%=depth %>">
-<input type = "hidden" name="level_" value = "<%=level_ %>">
+<input type = "text" name="bidx" value = "<%=bidx %>">
+<input type = "text" name="originbidx" value = "<%=originbidx %>">
+<input type = "text" name="depth" value = "<%=depth %>">
+<input type = "text" name="level_" value = "<%=level_ %>">
 <h3>글쓰기</h3>
 <hr id = "tod">
 	<div>제목 <input type ="text" name = "subject"> </div>
