@@ -500,9 +500,11 @@ public class BoardController extends HttpServlet {
 					
 		
 		
-		if(paramMethod.equals("F")) { RequestDispatcher rd =
-		  request.getRequestDispatcher(url); rd.forward(request, response);
-		  }else if(paramMethod.equals("S")){ response.sendRedirect(url);
+		if(paramMethod.equals("F")) { 
+			RequestDispatcher rd = request.getRequestDispatcher(url); 
+			rd.forward(request, response);
+		  }else if(paramMethod.equals("S")){ 
+			  response.sendRedirect(url);
 				  
 		  }
 		
