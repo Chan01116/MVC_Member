@@ -518,9 +518,9 @@ public class BoardDao {
 				pstmt = conn.prepareStatement(sql2);
 				pstmt.setInt(1, bv.getOriginbidx());
 				pstmt.setInt(2, bv.getDepth()+1);
-				System.out.println("다오뎁스"+bv.getDepth());
+				//System.out.println("다오뎁스"+bv.getDepth());
 				pstmt.setInt(3, bv.getLevel_()+1);
-				System.out.println("다오레벨"+bv.getLevel_());
+				//System.out.println("다오레벨"+bv.getLevel_());
 				pstmt.setString(4, bv.getSubject());
 				pstmt.setString(5, bv.getContents());
 				pstmt.setString(6, bv.getWriter());

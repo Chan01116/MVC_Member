@@ -60,15 +60,17 @@ public class CommentController extends HttpServlet {
 			String ccontents = "";
 			String writeday = "";
 			String str = "";
-			
+			String delyn ="";
+			int midx = 0;
 			for(int i = 0; i <alist.size(); i++) {
 				
 				cidx = alist.get(i).getCidx();
 				cwriter = alist.get(i).getCwriter();
 				ccontents = alist.get(i).getCcontents();
 				writeday = alist.get(i).getWriteday();
-				
-				str = str + "{\"cidx\":\""+cidx+"\",\"cwriter\":\""+cwriter+"\",\"ccontents\":\""+ccontents+"\",\"writeday\":\""+writeday+"\"},";
+				delyn = alist.get(i).getDelyn();
+				midx = alist.get(i).getMidx();
+				str = str + "{\"cidx\":\""+cidx+"\",\"cwriter\":\""+cwriter+"\",\"ccontents\":\""+ccontents+"\",\"writeday\":\""+writeday+"\",\"delyn\":\""+delyn+"\",\"midx\":\""+midx+"\"},";
 			}
 
 			// 마지막 쉼표 제거
@@ -129,21 +131,24 @@ public class CommentController extends HttpServlet {
 			
 			
 		 	 }else if(location.equals("commentDeleteAction.aws")) {
-					/*
-					 * String bidx = request.getParameter("bidx"); String password =
-					 * request.getParameter("password");
-					 * 
-					 * //어디로 이동할것인가를 보여줘야함 BoardDao bd = new BoardDao(); int value =
-					 * bd.boardDelete(Integer.parseInt(bidx), password); //결과 값이 0,1
-					 * 
-					 * paramMethod = "S"; if(value==1) { //성공 paramMethod = "S"; url =
-					 * request.getContextPath()+"/board/Board_List.aws";
-					 * 
-					 * }else { url = request.getContextPath()+"/board/Board_Delete.aws?bidx="+bidx;
-					 * }
-					 */
-				 	
-			  }else if(location.equals("Board_Reply.aws")) {
+		 		String cidx = request.getParameter("cidx");
+				//System.out.println("cidx:"+cidx);
+				
+				//delyn Y로 업데이트 하는 메소드를 만들어서 호출한다
+				CommentDao cd = new CommentDao();
+				int value = cd.commentDelete(Integer.parseInt(cidx));			
+				
+				//그리고 나서 화면에 실행성공여부를 json파일로 보여준다
+				PrintWriter out = response.getWriter();			
+				String str  = "{\"value\":\""+value+"\"}";
+						
+				out.println(str);
+				
+				
+				
+				
+				
+			}else if(location.equals("Board_Reply.aws")) {
 			//System.out.println("들어옴?");
 				String bidx = request.getParameter("bidx");
 				  

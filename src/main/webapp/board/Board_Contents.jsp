@@ -13,6 +13,12 @@
     	
     	
     }
+    int midx = 0;
+    if(session.getAttribute("midx")!=null){
+    	midx = (int)session.getAttribute("midx");
+    	
+    	
+    }
     
     %>
     
@@ -29,7 +35,7 @@
 //제이쿼리는 함수명이 앞으로
 // jquery 로 만드는 함수
 // read밖에 생성
-$.boardCommentList = function(){
+<%-- $.boardCommentList = function(){   지피티 코드
     $.ajax({
         type: "get",
         url: "<%=request.getContextPath()%>/comment/commentList.aws?bidx=<%=bv.getBidx()%>",
@@ -40,7 +46,7 @@ $.boardCommentList = function(){
             commentList.empty();
             for(let i=0; i<result.length; i++){
                 let comment = result[i];
-                let commentHtml = "<div><strong>" + comment.cwriter + "</strong> (" + comment.writeday + ")<br>" + comment.ccontents + "</div>";
+                let commentHtml = "<div><strong>" + comment.cidx + comment.cwriter + "</strong> (" + comment.writeday + ")<br>" + comment.ccontents +"<br>"+ comment.delyn + "</div>";
                 commentList.append(commentHtml);
             }
         },
@@ -49,7 +55,89 @@ $.boardCommentList = function(){
             alert("댓글 로딩 실패: " + error);
         }
     });
+} --%>
+
+
+function commentDel(cidx){
+	
+	let ans = confirm("삭제하시겠습니까?");
+	
+	if(ans == true){
+		$.ajax({
+			type :  "get",    //전송방식
+			url : "<%=request.getContextPath()%>/comment/commentDeleteAction.aws?cidx="+cidx,
+			dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
+			success : function(result){   //결과가 넘어와서 성공했을 받는 영역
+				//alert("전송성공 테스트");				
+				//alert(result.value);
+				$.boardCommentList();
+			},
+			error : function(){  //결과가 실패했을때 받는 영역						
+				alert("전송실패");
+			}			
+		});			
+		
+		
+	}
+		
+	return;
 }
+
+
+
+
+
+$.boardCommentList = function(){
+	//alert("ddddddd");
+	$.ajax({
+		type :  "get",    //전송방식
+		url : "<%=request.getContextPath()%>/comment/commentList.aws?bidx=<%=bv.getBidx()%>",
+		dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
+		success : function(result){   //결과가 넘어와서 성공했을 받는 영역
+		//	alert("전송성공 테스트");			
+		
+		var strTr = "";				
+		$(result).each(function(){			
+			
+			var btnn = "";
+			//현재 로그인 사람과 댓글쓴 사람의 번호가 같을때만 나타내준다
+			if(this.midx == "<%=midx%>"){  
+			if(this.delyn =="N"){
+				btnn = "<button type = 'button' onclick = 'commentDel("+this.cidx+");'>삭제</button>"
+			}
+			}
+			
+			strTr = strTr + "<tr>"
+			+"<td>"+this.cidx+"</td>"
+			+"<td>"+this.cwriter+"</td>"
+			+"<td class='content'>"+this.ccontents+"</td>"
+			+"<td>"+this.writeday+"</td>"
+			+"<td>"+btnn+"</td>"
+			+"</tr>";					
+		});		       
+		
+		var str  = "<table class='replyTable'>"
+			+"<tr>"
+			+"<th>번호</th>"
+			+"<th>작성자</th>"
+			+"<th>내용</th>"
+			+"<th>날짜</th>"
+			+"<th>DEL</th>"
+			+"</tr>"+strTr+"</table>";		
+		
+		$("#commentListView").html(str);		
+						
+		},
+		error : function(){  //결과가 실패했을때 받는 영역						
+			alert("전송실패");
+		}			
+	});	
+}
+
+
+
+
+
 
 $(document).ready(function(){
 	$.boardCommentList();
@@ -62,7 +150,7 @@ $(document).ready(function(){
 			url : "<%=request.getContextPath()%>/board/boardRecom.aws?bidx=<%=bv.getBidx()%>",
 			dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 			success : function(result){   //결과가 넘어와서 성공했을 받는 영역
-				alert("전송성공 테스트");	
+				//alert("전송성공 테스트");	
 			
 				var str ="추천("+result.recom+")";			
 				$("#btn").val(str);			
@@ -79,8 +167,8 @@ $(document).ready(function(){
 	$("#cmtBtn").click(function(){
 		
 		
-		let loginCheck = "<%=session.getAttribute("midx")%>";
-		if(loginCheck == ""|| loginCheck == "null" || loginCheck == null){
+		let loginCheck = "<%=midx%>";
+		if(loginCheck == ""|| loginCheck == "null" || loginCheck == null|| loginCheck == 0){
 			alert("로그인을 해주세요");
 			return;
 		}
@@ -109,14 +197,22 @@ $(document).ready(function(){
 			data : {"cwriter" : cwriter, 
 				    "ccontents" : ccontents, 
 				    "bidx" :"<%=bv.getBidx()%>", 
-				    "midx" : "<%=session.getAttribute("midx")%>"},       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
+				    "midx" : "<%=midx%>"},       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 				        
 			dataType : "json",	        
 			success : function(result){   //결과가 넘어와서 성공했을 받는 영역
-				alert("전송성공 테스트");	
+				//alert("전송성공 테스트");	
+				//var str ="("+result.value+")";			
+				//alert(str);
+				$.boardCommentList();
+				if(result.value ==1 ){
+					$("#ccontents").val("");
+					
+				}
 			
-				var str ="("+result.value+")";			
-				alert(str);	
+			
+			
+				
 			},
 			error : function(){  //결과가 실패했을때 받는 영역						
 				alert("전송실패");
@@ -165,7 +261,7 @@ $(document).ready(function(){
 	<input type = "text" id = "cwriter" name = "cwriter" value = "<%=memberName%>" readonly = "readonly" style = "width:100px;">
 	<input type = "text" id = "ccontents" name ="ccontnents">
 	<button type = "button" id = "cmtBtn" >댓글쓰기</button>
-	<div id="commentList"></div>
+	<div id="commentListView"></div>
 
 
 
